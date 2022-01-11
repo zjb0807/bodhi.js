@@ -13,7 +13,7 @@ import {
   TransactionResponse
 } from '@ethersproject/abstract-provider';
 import { getAddress } from '@ethersproject/address';
-import { hexDataLength, hexlify, hexValue, isHexString, joinSignature } from '@ethersproject/bytes';
+import { hexDataLength, hexlify, hexValue, isHexString, joinSignature, stripZeros } from '@ethersproject/bytes';
 import { Logger } from '@ethersproject/logger';
 import { Network } from '@ethersproject/networks';
 import { Deferrable, defineReadOnly, resolveProperties } from '@ethersproject/properties';
@@ -463,7 +463,7 @@ export abstract class BaseProvider extends AbstractProvider {
     });
 
     const callRequest: CallRequest = {
-      from: resolved.transaction.from,
+      from: resolved.transaction.from || '0x75E480dB528101a381Ce68544611C169Ad7EB342',
       to: resolved.transaction.to,
       gasLimit: resolved.transaction.gasLimit?.toBigInt(),
       storageLimit: undefined,
@@ -496,7 +496,7 @@ export abstract class BaseProvider extends AbstractProvider {
 
     const code = await apiAt.query.evm.accountStorages(address, position);
 
-    return code.toHex();
+    return hexlify(stripZeros(code.toHex()));
   };
 
   // @TODO
@@ -1318,6 +1318,8 @@ export abstract class BaseProvider extends AbstractProvider {
 
     return filteredLogs.map((log) => this.formatter.filterLog(log));
   };
+
+  getIndexerMetadata() {}
 
   // ENS
   lookupAddress = (address: string | Promise<string>): Promise<string> => throwNotImplemented('lookupAddress');

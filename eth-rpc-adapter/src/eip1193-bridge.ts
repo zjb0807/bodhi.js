@@ -52,6 +52,10 @@ class Eip1193BridgeImpl {
     return 'Acala/v0.0.1';
   }
 
+  async net_indexer(): Promise<string> {
+    return 'Acala/v0.0.1';
+  }
+
   /**
    * Returns the current network id.
    * @returns ID - The current network id.
