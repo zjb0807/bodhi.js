@@ -52,8 +52,10 @@ class Eip1193BridgeImpl {
     return 'Acala/v0.0.1';
   }
 
-  async net_indexer(): Promise<string> {
-    return 'Acala/v0.0.1';
+  // Query the synchronization progress and version information of indexer
+  async net_indexer(params: any[]): Promise<any> {
+    validate([], params);
+    return this.#provider.getIndexerMetadata();
   }
 
   /**
