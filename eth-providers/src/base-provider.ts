@@ -464,7 +464,7 @@ export abstract class BaseProvider extends AbstractProvider {
     });
 
     const callRequest: CallRequest = {
-      from: resolved.transaction.from || '0x75E480dB528101a381Ce68544611C169Ad7EB342',
+      from: resolved.transaction.from,
       to: resolved.transaction.to,
       gasLimit: resolved.transaction.gasLimit?.toBigInt(),
       storageLimit: undefined,
